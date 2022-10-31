@@ -12,3 +12,5 @@ urlpatterns = [
     path('ratings/', include('star_ratings.urls', namespace='ratings')),
 
 ]
+
+#try to do something
