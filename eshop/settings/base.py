@@ -4,6 +4,7 @@ Django settings for eshop project.
 from os import environ
 from os.path import abspath, basename, dirname, join, normpath
 from pathlib import Path
+from re import template
 from sys import path
 
 # PATH CONFIGURATION
@@ -129,7 +130,10 @@ TEMPLATES = [
                 'django.template.context_processors.tz',
                 'django.template.context_processors.static',
                 'core.context_processor.settings',
-            ]
+            ],
+            'libraries' : {
+                'templatetags': 'shop.templatetags.my_custom_tags',
+            },
         },
     },
 ]

@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load my_custom_tags %}
 {% load static %}
 {% block body %}
 
@@ -32,18 +33,32 @@
                             <label class="custom-control-label" for="price-all">All Price</label>
                             <span class="badge border font-weight-normal">{{ count }}</span>
                         </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3" >
+                        {% comment %} <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3" >
                             <input type="checkbox" class="custom-control-input" id="price-1">
                             
                             <label class="custom-control-label" for="price-1" ><a href="{% url 'price-product' category=one Min=0 Max=100 %}">$0 - $100</a></label>
                             <span class="badge border font-weight-normal">150</span>
-                        </div>
+                        </div> {% endcomment %}
+                        {% for ls in lst3 %}
+                            {% comment %} {% my_tag ls as data %} {% endcomment %}
+                            {% comment %} {% for j in i %} {% endcomment %}
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                             <input type="checkbox" class="custom-control-input" id="price-2">
-                            <label class="custom-control-label" for="price-2">$100 - $200</label>
+                            {% if ls.second != "Max" %}
+                            <label class="custom-control-label" for="price-2"><a href="{% url 'price-product' category=one Min=ls.first Max=ls.second %}">{{ls.first}} - {{ls.second}}</a></label>
                             <span class="badge border font-weight-normal">295</span>
+                            {% else %}
+                            {% if ls.first != 0 %}
+                            <label class="custom-control-label" for="price-2"><a href="{% url 'price-product' category=one Min=ls.first Max=ls.second %}">More Than {{ls.first}}</a></label>
+                            <span class="badge border font-weight-normal">295</span>
+                            {% endif %}
+                            {% endif %}
                         </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                        {% comment %} {% endfor %} {% endcomment %}
+                            {% comment %} {% empty %} {% endcomment %}
+                        {% comment %} {% endfor %} {% endcomment %}
+                        {% endfor %}
+                        {% comment %} <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                             <input type="checkbox" class="custom-control-input" id="price-3">
                             <label class="custom-control-label" for="price-3">$200 - $300</label>
                             <span class="badge border font-weight-normal">246</span>
@@ -57,7 +72,7 @@
                             <input type="checkbox" class="custom-control-input" id="price-5">
                             <label class="custom-control-label" for="price-5">$400 - $500</label>
                             <span class="badge border font-weight-normal">168</span>
-                        </div>
+                        </div> {% endcomment %}
                     </form>
                 </div>
                 <!-- Price End -->
