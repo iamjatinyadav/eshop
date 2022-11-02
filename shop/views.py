@@ -1,16 +1,21 @@
 
 from django.http import HttpResponse
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, View, ListView, DetailView
 from django.core.paginator import Paginator
 from django.db.models import Max
 
 from .models import *
+from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth import authenticate, login, logout
+from django.views import View
+
 # Create your views here.
 class IndexView(ListView):
     template_name = "multishop/index.html"
     model = Product
+    
 
     def get_context_data(self, **kwargs):
         et=super(IndexView, self).get_context_data(**kwargs)
@@ -19,6 +24,9 @@ class IndexView(ListView):
         et['cat'] = Category.objects.all()
         return et
 
+    # def get(self,request, *args, **kwargs):
+    #         user = request.user
+    #         print(user)
 
 class CategoryView(ListView):
     template_name = "multishop/shop.html"
@@ -124,6 +132,20 @@ class ProductView(DetailView):
 class ContactView(TemplateView):
     template_name = "multishop/contact.html"
 
+
+class Handlelogout(LogoutView):
+    # print("hello")
+    template_name = "multishop/index.html"
+    # def get(self, request, *args, **kwargs):
+    #     print("h1")
+    #     logout(request)
+    #     return redirect("index")
+
+# def handlelogout(request):
+#     print("hel")
+#     logout(request)
+#     print("hello")
+#     return redirect("index")
 
 # class IndexView(TemplateView):
 #     template_name = "multishop/index.html"
