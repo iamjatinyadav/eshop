@@ -20,3 +20,11 @@ class ProductAdmin(admin.ModelAdmin):
     list_display =['name', 'original_price', 'discount_price', 'category', 'slug'] 
 
 
+@admin.register(Cart)
+class CartAdmin(admin.ModelAdmin):
+    list_display = ['user', 'is_paid']
+
+
+@admin.register(CartItems)
+class CartItemsAdmin(admin.ModelAdmin):
+    list_display = ['product', 'count']

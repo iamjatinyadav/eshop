@@ -3,7 +3,7 @@ import uuid
 from django.db import models
 from django_extensions.db.models import TimeStampedModel, AutoSlugField
 from mptt.models import MPTTModel, TreeForeignKey
-
+from user.models import User
 
 # Create your models here.
 
@@ -41,6 +41,7 @@ class Category(MPTTModel, TimeStampedModel):
     def __str__(self):
         return self.name
 
+
     @property
     def total_products_count(self):
         total_product = self.products.all().count()
@@ -50,7 +51,7 @@ class Category(MPTTModel, TimeStampedModel):
 class Product(TimeStampedModel):
     name = models.CharField(max_length = 255, null=True, blank= True)
     original_price = models.FloatField(max_length = 255, null=True, blank=True)
-    discount_persent = models.IntegerField( null=True, blank=True, help_text="Please put any value between 1 to 99")
+    discount_persent = models.IntegerField( null=True, blank=True, help_text="Please put any value between 1 to 100")
     discount_price = models.FloatField(max_length = 255, null = True, blank = True, editable=False)
     image = models.FileField(upload_to="products_image/", max_length = 200, null=True, blank=True)
     slug = AutoSlugField(populate_from = 'name',null = True, blank  = True, editable=True)
@@ -70,6 +71,43 @@ class Product(TimeStampedModel):
         super(Product, self).save(*args, **kwargs)
 
 
+
+
+class Cart(TimeStampedModel):
+    user = models.ForeignKey(User , on_delete= models.CASCADE, related_name = 'carts')
+    is_paid = models.BooleanField(default = False)
+
+
+    class Meta:
+        verbose_name = 'Cart'
+        verbose_name_plural = "Cart"
+        ordering = ["id"]
+
+    def __str__(self) -> str:
+        return self.user.email
+
+
+    @property
+    def cart_items_count(self):
+        total_count = self.carts_items.all().count()
+        return total_count
+
+class CartItems(TimeStampedModel):
+    cart = models.ForeignKey('Cart', on_delete= models.CASCADE, related_name = 'carts_items')
+    product = models.ForeignKey('Product', on_delete = models.SET_NULL, null = True, blank = True , related_name = 'products')
+    count = models.IntegerField(null=True, blank = True)
+
+    class Meta:
+        verbose_name = 'Cart_Values'
+        verbose_name_plural = 'Cart_Values'
+        ordering = ["id"]
+
+    def __str__(self) -> str:
+        return self.cart.user.email + " buy " + self.product.name
+
+    
+
+    
 # class Product_Review(TimeStampedModel):
 #     product = models.ForeignKey('Product', on_delete= models.CASCADE, null=True, blank= True, related_name='prodect_review')
     

@@ -147,8 +147,24 @@ class Handlelogout(LogoutView):
 #     print("hello")
 #     return redirect("index")
 
-# class IndexView(TemplateView):
-#     template_name = "multishop/index.html"
+class AddCartItems(ListView):
+    template_name = "multishop/cart.html"
+    
+    def get(self,request):
+        if request.user:
+            query = CartItems.objects.filter(cart__user = request.user)
+            # total = query.total_price
+            # print(total)
+            context = {'query': query}
+            return render(request, "multishop/cart.html" ,context)
+        
+
+        
+        
+        
+
+
+
 
     
 
