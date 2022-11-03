@@ -34,7 +34,7 @@
                     <tbody class="align-middle">
                         {% for i in query %}
                         <tr>
-                            <td class="align-middle"><img src="img/product-1.jpg" alt="" style="width: 50px;"> {{i.product}}</td>
+                            <td class="align-middle"><img src="{{ i.product.image.url }}" alt="" style="width: 50px; height: 50px"> {{i.product}}</td>
                             <td class="align-middle">{{i.product.discount_price}}</td>
                             <td class="align-middle">
                                 <div class="input-group quantity mx-auto" style="width: 100px;">
@@ -51,7 +51,9 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="align-middle">{% multiply i.product.discount_price i.count %}</td>
+                            {% comment %} <td class="align-middle">{% multiply i.product.discount_price i.count %}</td> {% endcomment %}
+                            <td class="align-middle">{{ i.total_price }}</td>
+
                             <td class="align-middle"><button class="btn btn-sm btn-danger"><i class="fa fa-times"></i></button></td>
                         </tr>
                         {% endfor %}
@@ -73,7 +75,7 @@
                     <div class="border-bottom pb-2">
                         <div class="d-flex justify-content-between mb-3">
                             <h6>Subtotal</h6>
-                            <h6>$150</h6>
+                            <h6>{{ total }}</h6>
                         </div>
                         <div class="d-flex justify-content-between">
                             <h6 class="font-weight-medium">Shipping</h6>

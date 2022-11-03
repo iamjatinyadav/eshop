@@ -130,6 +130,7 @@ TEMPLATES = [
                 'django.template.context_processors.tz',
                 'django.template.context_processors.static',
                 'core.context_processor.settings',
+                'shop.context_processors.cartvalue',
             ],
             'libraries' : {
                 'templatetags': 'shop.templatetags.my_custom_tags',

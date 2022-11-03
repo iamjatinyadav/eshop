@@ -152,10 +152,12 @@ class AddCartItems(ListView):
     
     def get(self,request):
         if request.user:
+            cart_total = Cart.objects.get(user__email= request.user)
+            total = cart_total.total_value
             query = CartItems.objects.filter(cart__user = request.user)
             # total = query.total_price
             # print(total)
-            context = {'query': query}
+            context = {'query': query, 'total': total['total_price__sum']}
             return render(request, "multishop/cart.html" ,context)
         
 

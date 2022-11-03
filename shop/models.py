@@ -4,6 +4,7 @@ from django.db import models
 from django_extensions.db.models import TimeStampedModel, AutoSlugField
 from mptt.models import MPTTModel, TreeForeignKey
 from user.models import User
+from django.db.models import Sum
 
 # Create your models here.
 
@@ -92,10 +93,22 @@ class Cart(TimeStampedModel):
         total_count = self.carts_items.all().count()
         return total_count
 
+    
+    @property
+    def total_value(self):
+        total = self.carts_items.all().aggregate(Sum('total_price'))
+        return total
+        
+
+
+    
+
 class CartItems(TimeStampedModel):
     cart = models.ForeignKey('Cart', on_delete= models.CASCADE, related_name = 'carts_items')
     product = models.ForeignKey('Product', on_delete = models.SET_NULL, null = True, blank = True , related_name = 'products')
     count = models.IntegerField(null=True, blank = True)
+    total_price = models.FloatField(max_length = 255, null=True, blank=True)
+
 
     class Meta:
         verbose_name = 'Cart_Values'
@@ -104,6 +117,16 @@ class CartItems(TimeStampedModel):
 
     def __str__(self) -> str:
         return self.cart.user.email + " buy " + self.product.name
+    
+
+    def save(self, *args, **kwargs):
+
+        self.total_price = self.count * self.product.discount_price
+        super(CartItems, self).save(*args, **kwargs)
+
+
+
+    
 
     
 
