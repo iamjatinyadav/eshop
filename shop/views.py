@@ -171,7 +171,7 @@ class ShowCartItems(TemplateView):
             return render(request, "multishop/cart.html" ,context)
         
         else:
-            return HttpResponse("hello")
+            return render(request,"multishop/cart.html")
             
         
         
