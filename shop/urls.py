@@ -11,6 +11,6 @@ urlpatterns = [
     path('contact', ContactView.as_view(), name="contact"),
     path('Logout', Handlelogout.as_view(), name="logout"),
     path('ratings/', include('star_ratings.urls', namespace='ratings')),
-    path('cart', AddCartItems.as_view(), name = "cart"),
+    path('cart', ShowCartItems.as_view(), name = "cart"),
 
 ]

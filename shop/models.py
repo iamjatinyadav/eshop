@@ -90,13 +90,18 @@ class Cart(TimeStampedModel):
 
     @property
     def cart_items_count(self):
-        total_count = self.carts_items.all().count()
-        return total_count
+        total = 0
+        # total_count = self.carts_items.all().count()
+        for counts in self.carts_items.all():
+            total += counts.count
+        return total
+        
 
     
-    @property
-    def total_value(self):
-        total = self.carts_items.all().aggregate(Sum('total_price'))
+    @staticmethod
+    def total_value(self, request, obj):
+        print(request.user)
+        total = obj.carts_items.all().aggregate(Sum('total_price'))
         return total
         
 
@@ -117,6 +122,7 @@ class CartItems(TimeStampedModel):
 
     def __str__(self) -> str:
         return self.cart.user.email + " buy " + self.product.name
+    
     
 
     def save(self, *args, **kwargs):

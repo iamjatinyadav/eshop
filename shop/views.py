@@ -147,20 +147,32 @@ class Handlelogout(LogoutView):
 #     print("hello")
 #     return redirect("index")
 
-class AddCartItems(ListView):
+class ShowCartItems(TemplateView):
     template_name = "multishop/cart.html"
     
-    def get(self,request):
-        if request.user:
-            cart_total = Cart.objects.get(user__email= request.user)
-            total = cart_total.total_value
-            query = CartItems.objects.filter(cart__user = request.user)
-            # total = query.total_price
-            # print(total)
-            context = {'query': query, 'total': total['total_price__sum']}
+    
+    # def get(self,request):
+    #     if request.user:
+    #         cart_total = Cart.objects.get(user__email= request.user)
+    #         # total = cart_total.total_value
+    #         query = CartItems.objects.filter(cart__user = request.user)
+    #         # total = query.total_price
+    #         # print(total)
+    #         context = {'query': query, }
+    #         return render(request, "multishop/cart.html" ,context)
+
+    def get(self, request):
+
+        if str(request.user) != "AnonymousUser":
+            cart_owner = Cart.objects.get(user__email =request.user)
+            cart_item = CartItems.objects.filter(cart= cart_owner)
+            total = Cart.total_value(self, request, cart_owner)
+            context = {'query': cart_item, 'total':total['total_price__sum']}
             return render(request, "multishop/cart.html" ,context)
         
-
+        else:
+            return HttpResponse("hello")
+            
         
         
         
