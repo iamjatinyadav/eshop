@@ -4,7 +4,6 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
-
 class UserAccountManager(BaseUserManager):
     def _create_user(self, email, password, **extra_fields):
         if not email:
@@ -65,3 +64,4 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self):
         return self.first_name.strip()
+

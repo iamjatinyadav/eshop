@@ -5,7 +5,7 @@ from django_extensions.db.models import TimeStampedModel, AutoSlugField
 from mptt.models import MPTTModel, TreeForeignKey
 from user.models import User
 from django.db.models import Sum
-
+from django.db.models.signals import post_save
 # Create your models here.
 
 class Contact(TimeStampedModel):
@@ -95,7 +95,7 @@ class Cart(TimeStampedModel):
         for counts in self.carts_items.all():
             total += counts.count
         return total
-        
+
 
     
     @staticmethod
@@ -104,6 +104,12 @@ class Cart(TimeStampedModel):
         total = obj.carts_items.all().aggregate(Sum('total_price'))
         return total
         
+# def create_cart(sender, instance, created, **kwargs):
+#     if created:
+#         Cart.objects.create(user = instance)
+#         print("cart created")
+
+# post_save.connect(create_cart, sender=User)
 
 
     

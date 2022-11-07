@@ -169,7 +169,7 @@ INSTALLED_APPS = (
     'constance.backends.database',
     'core',
     #developer define
-    'shop',
+    'shop.apps.ShopConfig',
     'mptt',
     'star_ratings',
 
