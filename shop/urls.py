@@ -9,7 +9,9 @@ urlpatterns = [
     path('products/<str:category>/<int:Min>-<str:Max>', FilterPriceView.as_view(), name="price-product"),
     path('product/<slug:slug>', ProductView.as_view(), name="product-detail"),
     path('contact', ContactView.as_view(), name="contact"),
+    path('Login', HandleLogin.as_view(), name="login"),
     path('Logout', Handlelogout.as_view(), name="logout"),
+
     path('ratings/', include('star_ratings.urls', namespace='ratings')),
     path('cart', ShowCartItems.as_view(), name = "cart"),
 

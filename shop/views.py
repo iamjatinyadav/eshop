@@ -133,6 +133,11 @@ class ContactView(TemplateView):
     template_name = "multishop/contact.html"
 
 
+class HandleLogin(LoginView):
+    template_name = "multishop/login.html"
+
+
+
 class Handlelogout(LogoutView):
     # print("hello")
     template_name = "multishop/index.html"
@@ -149,17 +154,6 @@ class Handlelogout(LogoutView):
 
 class ShowCartItems(TemplateView):
     template_name = "multishop/cart.html"
-    
-    
-    # def get(self,request):
-    #     if request.user:
-    #         cart_total = Cart.objects.get(user__email= request.user)
-    #         # total = cart_total.total_value
-    #         query = CartItems.objects.filter(cart__user = request.user)
-    #         # total = query.total_price
-    #         # print(total)
-    #         context = {'query': query, }
-    #         return render(request, "multishop/cart.html" ,context)
 
     def get(self, request):
 
