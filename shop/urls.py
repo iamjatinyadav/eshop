@@ -14,5 +14,6 @@ urlpatterns = [
     path('addtocart/<slug:id>/<int:arg>', AddToCart.as_view(), name = "addtocart"),
     path('ratings/', include('star_ratings.urls', namespace='ratings')),
     path('cart', ShowCartItems.as_view(), name = "cart"),
+    path('delete_value/<int:pk>', delete_cart_value, name = "deletecart"),
 
 ]

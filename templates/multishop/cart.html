@@ -54,7 +54,7 @@
                             {% comment %} <td class="align-middle">{% multiply i.product.discount_price i.count %}</td> {% endcomment %}
                             <td class="align-middle">{{ i.total_price }}</td>
 
-                            <td class="align-middle"><button class="btn btn-sm btn-danger"><i class="fa fa-times"></i></button></td>
+                            <td class="align-middle"><a href = "{% url 'deletecart' i.id %}"<button class="btn btn-sm btn-danger"><i class="fa fa-times"></i></button></a></td>
                         </tr>
                         {% endfor %}
                         

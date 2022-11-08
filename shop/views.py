@@ -5,12 +5,14 @@ from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, View, ListView, DetailView
 from django.core.paginator import Paginator
 from django.db.models import Max
+from django.urls import reverse_lazy
 
 from .models import *
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth import authenticate, login, logout
 from django.views import View
 from django.views.generic import CreateView
+from django.http import HttpResponseRedirect
 
 # Create your views here.
 class IndexView(ListView):
@@ -154,6 +156,8 @@ class Handlelogout(LogoutView):
 #     return redirect("index")
 
 class AddToCart(CreateView):
+    success_url = "multishop/detail.html"
+
     def get(self, request, *args, **kwargs):
         
         if str(request.user) != "AnonymousUser":
@@ -163,32 +167,20 @@ class AddToCart(CreateView):
             if  int(kwargs.get('id')) in product:
                 p = Cart.objects.get(user__email = request.user).carts_items.filter(product_id = int(kwargs.get('id')))
                 for z in p:
-                    print(z.cart)
-                    print(z.product)
                     z.count += int(kwargs.get('arg'))
-                    # cartitems = CartItems(cart = z.cart, product = z.product, count = z.count)
                     z.save()
-                return redirect("/")
+                return redirect('cart')
 
             else:
-                # p = Cart.objects.get(user__email = request.user).carts_items.filter(product_id = int(kwargs.get('id')))
                 user = Cart.objects.get(user__email = request.user)
                 p=Product.objects.get(id = int(kwargs.get('id')))
                 
                 cartitems = CartItems(cart = user, product= p, count= int(kwargs.get('arg')))
                 cartitems.save()
-                return redirect("/")
+                return redirect('cart')
+
                 
-                # item_value = Cart.objects.get(user__email= int(kwargs.get('id')))
-                # print(item_value)
-                # for i in item_value:
-                #     print(i.cart)
-                #     print(i.product)
-                #     print(i.count)
                 
-            #     return HttpResponse("True")
-            # else:
-            #     return HttpResponse("False")
 
 class ShowCartItems(ListView):
     template_name = "multishop/cart.html"
@@ -207,6 +199,13 @@ class ShowCartItems(ListView):
             
         
         
+def delete_cart_value(request, pk):
+    if str(request.user) != "AnonymousUser":
+        # user = request.user
+        get_val = CartItems.objects.get(id=pk)
+        get_val.delete()
+        return redirect("cart")
+    
         
 
 
