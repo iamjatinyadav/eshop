@@ -161,6 +161,23 @@ class AddToCart(CreateView):
             print(kwargs.get('arg'))
             product =[ i.product.id for i in Cart.objects.get(user__email = request.user).carts_items.all()]
             if  int(kwargs.get('id')) in product:
+                p = Cart.objects.get(user__email = request.user).carts_items.filter(product_id = int(kwargs.get('id')))
+                for z in p:
+                    print(z.cart)
+                    print(z.product)
+                    z.count += int(kwargs.get('arg'))
+                    # cartitems = CartItems(cart = z.cart, product = z.product, count = z.count)
+                    z.save()
+                return redirect("/")
+
+            else:
+                # p = Cart.objects.get(user__email = request.user).carts_items.filter(product_id = int(kwargs.get('id')))
+                user = Cart.objects.get(user__email = request.user)
+                p=Product.objects.get(id = int(kwargs.get('id')))
+                
+                cartitems = CartItems(cart = user, product= p, count= int(kwargs.get('arg')))
+                cartitems.save()
+                return redirect("/")
                 
                 # item_value = Cart.objects.get(user__email= int(kwargs.get('id')))
                 # print(item_value)
@@ -168,7 +185,6 @@ class AddToCart(CreateView):
                 #     print(i.cart)
                 #     print(i.product)
                 #     print(i.count)
-            #     CartItems.objects.create(cart = request.user, product = int(kwargs.get('id')), count = int(kwargs.get('arg'))+int(i.count))
                 
             #     return HttpResponse("True")
             # else:
