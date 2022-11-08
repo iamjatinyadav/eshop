@@ -121,14 +121,14 @@
                                     <i class="fa fa-minus"></i>
                                 </button>
                             </div>
-                            <input type="text" class="form-control bg-secondary border-0 text-center" value="1">
+                            <input type="text" class="form-control bg-secondary border-0 text-center" id="xyz" value="1">
                             <div class="input-group-btn">
                                 <button class="btn btn-primary btn-plus">
                                     <i class="fa fa-plus"></i>
                                 </button>
                             </div>
                         </div>
-                        <button class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Add To
+                        <button class="btn btn-primary px-3" onclick="chc({{ product.id }})" ><i class="fa fa-shopping-cart mr-1"></i> Add To
                             Cart</button>
                     </div>
                     <div class="d-flex pt-2">
@@ -401,6 +401,18 @@
             </div>
         </div>
     </div>
+    <script>
+        {% comment %} const dd =  document.getElementById("xyz").value {% endcomment %}
+
+        function chc(){
+            const dd =  document.getElementById("xyz").value
+            var url_m = "{% url 'addtocart' id=product.id arg=12345 %}".replace(/12345/, dd)
+            {% comment %} alert("product id "+{{product.id}}+" product value "+ dd + url_m) {% endcomment %}
+            {% comment %} localStorage.setItem("val",dd) {% endcomment %}
+            {% comment %} localStorage.getItem("val") {% endcomment %}
+            window.location.href = url_m;
+         }
+    </script>
     <!-- Products End -->
 
 

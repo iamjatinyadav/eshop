@@ -10,6 +10,7 @@ from .models import *
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth import authenticate, login, logout
 from django.views import View
+from django.views.generic import CreateView
 
 # Create your views here.
 class IndexView(ListView):
@@ -152,7 +153,28 @@ class Handlelogout(LogoutView):
 #     print("hello")
 #     return redirect("index")
 
-class ShowCartItems(TemplateView):
+class AddToCart(CreateView):
+    def get(self, request, *args, **kwargs):
+        
+        if str(request.user) != "AnonymousUser":
+            print(kwargs.get('id'))
+            print(kwargs.get('arg'))
+            product =[ i.product.id for i in Cart.objects.get(user__email = request.user).carts_items.all()]
+            if  int(kwargs.get('id')) in product:
+                
+                # item_value = Cart.objects.get(user__email= int(kwargs.get('id')))
+                # print(item_value)
+                # for i in item_value:
+                #     print(i.cart)
+                #     print(i.product)
+                #     print(i.count)
+            #     CartItems.objects.create(cart = request.user, product = int(kwargs.get('id')), count = int(kwargs.get('arg'))+int(i.count))
+                
+            #     return HttpResponse("True")
+            # else:
+            #     return HttpResponse("False")
+
+class ShowCartItems(ListView):
     template_name = "multishop/cart.html"
 
     def get(self, request):

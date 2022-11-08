@@ -11,7 +11,7 @@ urlpatterns = [
     path('contact', ContactView.as_view(), name="contact"),
     path('Login', HandleLogin.as_view(), name="login"),
     path('Logout', Handlelogout.as_view(), name="logout"),
-
+    path('addtocart/<slug:id>/<int:arg>', AddToCart.as_view(), name = "addtocart"),
     path('ratings/', include('star_ratings.urls', namespace='ratings')),
     path('cart', ShowCartItems.as_view(), name = "cart"),
 
