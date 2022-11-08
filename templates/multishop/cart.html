@@ -34,20 +34,20 @@
                     <tbody class="align-middle">
                         {% for i in query %}
                         <tr>
-                            <td class="align-middle"><img src="{{ i.product.image.url }}" alt="" style="width: 50px; height: 50px"> {{i.product}}</td>
+                            <td class="align-middle"><img src="{{ i.product.image.url }}"  alt="" style="width: 50px; height: 50px"><a href="{% url 'product-detail' i.product.slug %}">{{i.product}}</a></td>
                             <td class="align-middle">{{i.product.discount_price}}</td>
                             <td class="align-middle">
                                 <div class="input-group quantity mx-auto" style="width: 100px;">
                                     <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-minus" >
+                                        <a href="{% url 'updatecart' i.id 'minus' %}"<button class="btn btn-sm btn-primary btn-minus" >
                                         <i class="fa fa-minus"></i>
-                                        </button>
+                                        </button></a>
                                     </div>
                                     <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center" value="{{i.count}}">
                                     <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-plus">
+                                        <a href="{% url 'updatecart' i.id 'plus' %}"<button class="btn btn-sm btn-primary btn-plus">
                                             <i class="fa fa-plus"></i>
-                                        </button>
+                                        </button></a>
                                     </div>
                                 </div>
                             </td>

@@ -180,7 +180,6 @@ class AddToCart(CreateView):
                 return redirect('cart')
 
                 
-                
 
 class ShowCartItems(ListView):
     template_name = "multishop/cart.html"
@@ -205,6 +204,25 @@ def delete_cart_value(request, pk):
         get_val = CartItems.objects.get(id=pk)
         get_val.delete()
         return redirect("cart")
+
+
+
+def update_cart_value(request, pk, val):
+    if str(request.user) != "AnonymousUser":
+        get_val = CartItems.objects.get(id=pk)
+        if val == 'plus':
+            get_val.count += 1
+            get_val.save()
+        else:
+            if get_val.count == 1:
+                get_val.delete()
+            else:
+                get_val.count -= 1
+                get_val.save()
+
+        return redirect("cart")
+                        
+
     
         
 
