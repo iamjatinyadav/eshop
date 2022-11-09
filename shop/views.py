@@ -13,7 +13,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.views import View
 from django.views.generic import CreateView
 from django.http import HttpResponseRedirect
+from django.views.generic import FormView
 
+from shop.forms import *
 # Create your views here.
 class IndexView(ListView):
     template_name = "multishop/index.html"
@@ -135,6 +137,25 @@ class ProductView(DetailView):
 class ContactView(TemplateView):
     template_name = "multishop/contact.html"
 
+class HandleRegister(FormView):
+    template_name = 'multishop/register.html'
+    form_class = RegisterForm
+
+    def post(self, request, *args, **kwargs):
+        print("hey")
+        form = self.get_form()
+        if form.is_valid():
+            print("hi")
+            is_active = True
+            form.save()
+            print("hello")
+            return render(request, 'multishop/login.html')
+        else:
+            print("inh")
+            context={'val':self.form_invalid(form)}
+            return render(request, 'multishop/register.html', context)
+
+
 
 class HandleLogin(LoginView):
     template_name = "multishop/login.html"
@@ -142,18 +163,8 @@ class HandleLogin(LoginView):
 
 
 class Handlelogout(LogoutView):
-    # print("hello")
     template_name = "multishop/index.html"
-    # def get(self, request, *args, **kwargs):
-    #     print("h1")
-    #     logout(request)
-    #     return redirect("index")
-
-# def handlelogout(request):
-#     print("hel")
-#     logout(request)
-#     print("hello")
-#     return redirect("index")
+    
 
 class AddToCart(CreateView):
     success_url = "multishop/detail.html"

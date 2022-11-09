@@ -16,15 +16,15 @@
                     <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">{{user.email}}</button>
                     <div class="dropdown-menu dropdown-menu-right">
                         <button class="dropdown-item" type="button">manage Detail</button>
-                        <button class="dropdown-item" type="button" href="{% url 'logout' %}"><a href="{% url 'logout' %}">logout</a></button>
+                        <a href="{% url 'logout' %}"<button class="dropdown-item" type="button" >logout</button></a>
                     </div>
                 </div>
                 {% else %}
                 <div class="btn-group">
                     <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">My Account</button>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <button class="dropdown-item" type="button" href=""><a href="{% url 'login' %}">Sign in</a></button>
-                        <button class="dropdown-item" type="button">Sign up</button>
+                        <a href="{% url 'login' %}"<button class="dropdown-item" type="button">Sign in</button></a>
+                        <a href="{% url 'register' %}"<button class="dropdown-item" type="button">Sign up</button></a>
                     </div>
                 </div>
                 {% endif %}
