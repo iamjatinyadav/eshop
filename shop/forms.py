@@ -55,7 +55,7 @@ class RegisterForm(ModelForm):
         password = cleaned_data.get("password")
         confirm_password = cleaned_data.get("confirm_password")
         if password is not None and password != confirm_password:
-            self.add_error("confirm password", "Your passwords must match")
+            self.add_error("confirm_password", "Your passwords must match")
         return cleaned_data
 
 

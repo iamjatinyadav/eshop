@@ -140,20 +140,33 @@ class ContactView(TemplateView):
 class HandleRegister(FormView):
     template_name = 'multishop/register.html'
     form_class = RegisterForm
+    success_url = reverse_lazy('login')
 
-    def post(self, request, *args, **kwargs):
-        print("hey")
-        form = self.get_form()
-        if form.is_valid():
-            print("hi")
-            is_active = True
-            form.save()
-            print("hello")
-            return render(request, 'multishop/login.html')
-        else:
-            print("inh")
-            context={'val':self.form_invalid(form)}
-            return render(request, 'multishop/register.html', context)
+    def form_valid(self, form):
+        # data = {
+        #     "email" = form.cleaned_data['email'],
+        #     ""
+        # }
+        user = User.objects.create(email= form.cleaned_data['email'], first_name = form.cleaned_data['first_name'], 
+                last_name = form.cleaned_data['last_name'])
+        user.set_password(form.cleaned_data['password'])
+        user.is_active = True
+        user.save()
+        return super(HandleRegister, self).form_valid(form)
+
+    # def post(self, request, *args, **kwargs):
+    #     print("hey")
+    #     form = self.get_form()
+    #     if form.is_valid():
+    #         print("hi")
+    #         is_active = True
+    #         form.save()
+    #         print("hello")
+    #         return render(request, 'multishop/login.html')
+    #     else:
+    #         print("inh")
+    #         context={'val':self.form_invalid(form)}
+    #         return render(request, 'multishop/register.html', context)
 
 
 
